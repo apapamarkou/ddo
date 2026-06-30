@@ -102,11 +102,10 @@ jobs:
       - name: Build .deb
         run: |
           cd packaging
-          dpkg-buildpackage -us -uc -b || true
+          dpkg-buildpackage -us -uc -b
 
       - name: Upload .deb artifact
         uses: actions/upload-artifact@v4
         with:
           name: debian-package
           path: "*.deb"
-        continue-on-error: true
