@@ -1,20 +1,35 @@
 #!/usr/bin/make -f
-export PYBUILD_SYSTEM=setuptools
-export PYBUILD_NAME=ddo
+
+PKG  := debian-desktop-optimizer
+DESTDIR := $(CURDIR)/debian/$(PKG)
+
 %:
-	dh $@ --with python3 --buildsystem=pybuild
+	dh $@ --with python3
+
+override_dh_auto_configure:
+	# nothing to configure
+
+override_dh_auto_build:
+	cd .. && python3 setup.py build
 
 override_dh_auto_install:
-	dh_auto_install
+	cd .. && python3 setup.py install \
+		--root=$(DESTDIR) \
+		--install-layout=deb \
+		--prefix=/usr
 	# Install desktop entry
-	install -Dm644 packaging/ddo.desktop \
-		debian/debian-desktop-optimizer/usr/share/applications/ddo.desktop
+	install -Dm644 ../packaging/ddo.desktop \
+		$(DESTDIR)/usr/share/applications/ddo.desktop
 	# Install man page
-	install -Dm644 packaging/man/ddo.1 \
-		debian/debian-desktop-optimizer/usr/share/man/man1/ddo.1
+	install -Dm644 ../packaging/man/ddo.1 \
+		$(DESTDIR)/usr/share/man/man1/ddo.1
 	# Install data files
-	install -Dm644 data/languages/languages.yaml \
-		debian/debian-desktop-optimizer/usr/share/ddo/languages/languages.yaml
+	install -Dm644 ../data/languages/languages.yaml \
+		$(DESTDIR)/usr/share/ddo/languages/languages.yaml
 	# Install shell completions
-	install -Dm644 packaging/completions/ddo.bash \
-		debian/debian-desktop-optimizer/usr/share/bash-completion/completions/ddo
+	install -Dm644 ../packaging/completions/ddo.bash \
+		$(DESTDIR)/usr/share/bash-completion/completions/ddo
+
+override_dh_auto_clean:
+	cd .. && python3 setup.py clean --all 2>/dev/null || true
+	rm -rf ../build ../src/*.egg-info
