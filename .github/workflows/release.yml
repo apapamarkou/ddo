@@ -42,7 +42,8 @@ jobs:
         run: |
           apt-get update
           apt-get install -y --no-install-recommends \
-            python3 python3-pip build-essential devscripts debhelper \
+            python3 python3-pip python3-all python3-setuptools \
+            build-essential devscripts debhelper dh-python \
             fakeroot lintian ca-certificates git
 
       - name: Install project
