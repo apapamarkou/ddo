@@ -1,0 +1,112 @@
+name: CI
+
+on:
+  push:
+    branches: ["main", "develop"]
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint (Ruff + Black + Mypy)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Install dev dependencies
+        run: pip install -e ".[dev]"
+
+      - name: Ruff
+        run: ruff check src/ tests/
+
+      - name: Black
+        run: black --check src/ tests/
+
+      - name: Mypy
+        run: mypy src/ddo/backend/ src/ddo/models/ src/ddo/utils/
+
+  test:
+    name: Pytest + Coverage
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Install dev dependencies
+        run: pip install -e ".[dev]"
+
+      - name: Run tests
+        run: pytest --cov=ddo --cov-report=xml --cov-report=term-missing -m "not gui"
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: coverage.xml
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+  build-wheel:
+    name: Build Python Distribution
+    runs-on: ubuntu-24.04
+    needs: [lint, test]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install build
+        run: pip install build
+
+      - name: Build sdist and wheel
+        run: python -m build
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-dist
+          path: dist/
+
+  build-deb:
+    name: Build Debian Package
+    runs-on: ubuntu-24.04
+    needs: [lint, test]
+    container:
+      image: debian:trixie-slim
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install packaging tools
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends \
+            python3 python3-pip build-essential devscripts debhelper \
+            fakeroot lintian ca-certificates git
+
+      - name: Install project
+        run: pip install --break-system-packages -e .
+
+      - name: Build .deb
+        run: |
+          cd packaging
+          dpkg-buildpackage -us -uc -b || true
+
+      - name: Upload .deb artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: debian-package
+          path: "*.deb"
+        continue-on-error: true

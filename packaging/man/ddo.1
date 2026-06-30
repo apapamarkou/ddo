@@ -1,0 +1,77 @@
+.TH DDO 1 "2025-01-01" "1.0.0" "Debian Desktop Optimizer"
+.SH NAME
+ddo \- Debian Desktop Optimizer CLI
+.SH SYNOPSIS
+.B ddo
+[\fICOMMAND\fR] [\fIOPTIONS\fR]
+.SH DESCRIPTION
+\fBddo\fR removes unnecessary language packs, fonts, dictionaries,
+input methods, games and optional desktop components from a fresh
+Debian installation.
+.SH COMMANDS
+.TP
+.B analyze
+Scan the system and show what can be removed without making changes.
+.TP
+.B cleanup
+Remove bloatware based on your saved configuration.
+.TP
+.B dry-run
+Preview cleanup without removing anything.
+.TP
+.B restore
+Reinstall packages from a rollback checkpoint.
+.TP
+.B update
+Update the package database and upgrade all packages.
+.TP
+.B list-languages
+Display installed language-related packages.
+.SH OPTIONS
+.TP
+.B \-\-config PATH
+Path to an alternative config.yaml file.
+.TP
+.B \-\-dry-run
+Simulate only — do not remove anything.
+.TP
+.B \-y, \-\-yes
+Skip confirmation prompts.
+.TP
+.B \-v, \-\-verbose
+Enable verbose output.
+.TP
+.B \-\-help
+Show help message.
+.SH FILES
+.TP
+.I ~/.config/ddo/config.yaml
+User configuration.
+.TP
+.I ~/.local/state/ddo/logs/ddo.log
+Application log (rotating, max 5 MiB).
+.TP
+.I ~/.local/state/ddo/rollback/
+Rollback JSON snapshots.
+.SH EXAMPLES
+Analyse the system:
+.RS
+.B ddo analyze
+.RE
+.PP
+Perform a cleanup keeping English and French:
+.RS
+.B ddo cleanup --config ~/.config/ddo/config.yaml
+.RE
+.PP
+Preview what would be removed:
+.RS
+.B ddo dry-run
+.RE
+.SH SEE ALSO
+.BR apt (8),
+.BR dpkg (1)
+.SH LICENSE
+GPL-3.0-only
+.SH AUTHORS
+Debian Desktop Optimizer Contributors

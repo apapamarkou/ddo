@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.venv/
+venv/
+env/
+*.egg-link
+
+# Coverage
+.coverage
+coverage.xml
+htmlcov/
+.pytest_cache/
+
+# Type checking
+.mypy_cache/
+
+# Distribution packaging
+*.deb
+*.changes
+*.buildinfo
+*.dsc
+*.tar.gz
+*.tar.xz
+debian/.debhelper/
+debian/debian-desktop-optimizer/
+debian/files
+debian/*.substvars
+debian/*.log
+debian/tmp/
+
+# IDE
+.idea/
+.vscode/
+*.sublime-*
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Application runtime
+*.log

@@ -1,0 +1,753 @@
+# languages.yaml — Language package patterns for Debian Desktop Optimizer
+#
+# Each top-level key is a BCP-47 language code.
+# "name"     : human-readable English name
+# "patterns" : list of glob patterns matching language-specific packages
+#
+# This file drives ALL language detection.  Add new languages here without
+# touching Python source.
+
+languages:
+  af:
+    name: Afrikaans
+    patterns:
+      - "aspell-af"
+      - "task-south-african-english-desktop"
+
+  am:
+    name: Amharic
+    patterns:
+      - "aspell-am"
+      - "task-amharic-desktop"
+      - "task-amharic-gnome-desktop"
+
+  ar:
+    name: Arabic
+    patterns:
+      - "aspell-ar"
+      - "aspell-ar-large"
+      - "firefox-esr-l10n-ar"
+      - "fonts-hosny-*"
+      - "fonts-kacst*"
+      - "fonts-sil-scheherazade"
+      - "fonts-unikurdweb"
+      - "hunspell-ar"
+      - "libreoffice-l10n-ar"
+      - "task-arabic-desktop"
+      - "task-arabic-gnome-desktop"
+
+  ast:
+    name: Asturian
+    patterns:
+      - "firefox-esr-l10n-ast"
+      - "libreoffice-l10n-ast"
+      - "task-asturian-desktop"
+
+  be:
+    name: Belarusian
+    patterns:
+      - "firefox-esr-l10n-be"
+      - "hunspell-be"
+      - "libreoffice-l10n-be"
+      - "task-belarusian-desktop"
+
+  bg:
+    name: Bulgarian
+    patterns:
+      - "aspell-bg"
+      - "firefox-esr-l10n-bg"
+      - "hunspell-bg"
+      - "ibulgarian"
+      - "libreoffice-l10n-bg"
+      - "t1-teams"
+      - "task-bulgarian-desktop"
+      - "task-cyrillic-desktop"
+      - "wbulgarian"
+
+  bn:
+    name: Bengali
+    patterns:
+      - "firefox-esr-l10n-bn"
+      - "fonts-beng"
+      - "fonts-beng-extra"
+      - "fonts-lohit-beng-assamese"
+      - "fonts-lohit-beng-bengali"
+      - "libreoffice-l10n-bn"
+      - "task-bengali-desktop"
+      - "task-bengali-gnome-desktop"
+
+  bs:
+    name: Bosnian
+    patterns:
+      - "firefox-esr-l10n-bs"
+      - "hunspell-bs"
+      - "libreoffice-l10n-bs"
+      - "task-bosnian-desktop"
+
+  ca:
+    name: Catalan
+    patterns:
+      - "aspell-ca"
+      - "firefox-esr-l10n-ca"
+      - "hunspell-ca"
+      - "icatalan"
+      - "libreoffice-help-ca"
+      - "libreoffice-l10n-ca"
+      - "task-catalan-desktop"
+      - "wcatalan"
+
+  cs:
+    name: Czech
+    patterns:
+      - "aspell-cs"
+      - "firefox-esr-l10n-cs"
+      - "hunspell-cs"
+      - "libreoffice-help-cs"
+      - "libreoffice-l10n-cs"
+      - "mythes-cs"
+      - "task-czech-desktop"
+
+  cy:
+    name: Welsh
+    patterns:
+      - "aspell-cy"
+      - "firefox-esr-l10n-cy"
+      - "libreoffice-l10n-cy"
+      - "task-welsh-desktop"
+
+  da:
+    name: Danish
+    patterns:
+      - "aspell-da"
+      - "firefox-esr-l10n-da"
+      - "hunspell-da"
+      - "idanish"
+      - "libreoffice-help-da"
+      - "libreoffice-l10n-da"
+      - "task-danish-desktop"
+      - "wdanish"
+
+  de:
+    name: German
+    patterns:
+      - "aspell-de"
+      - "firefox-esr-l10n-de"
+      - "hunspell-de-at"
+      - "hunspell-de-ch"
+      - "hunspell-de-de"
+      - "hyphen-de"
+      - "ingerman"
+      - "iswiss"
+      - "libreoffice-help-de"
+      - "libreoffice-l10n-de"
+      - "mythes-de"
+      - "mythes-de-ch"
+      - "task-german-desktop"
+      - "wngerman"
+
+  dz:
+    name: Dzongkha
+    patterns:
+      - "fonts-dzongkha"
+      - "libreoffice-help-dz"
+      - "libreoffice-l10n-dz"
+      - "task-dzongkha-desktop"
+
+  el:
+    name: Greek
+    patterns:
+      - "aspell-el"
+      - "firefox-esr-l10n-el"
+      - "hunspell-el"
+      - "libreoffice-l10n-el"
+      - "task-greek-desktop"
+
+  en-gb:
+    name: English (British)
+    patterns:
+      - "firefox-esr-l10n-en-gb"
+      - "hunspell-en-gb"
+      - "ibritish"
+      - "libreoffice-help-en-gb"
+      - "libreoffice-l10n-en-gb"
+      - "task-british-desktop"
+      - "wbritish*"
+
+  eo:
+    name: Esperanto
+    patterns:
+      - "aspell-eo"
+      - "firefox-esr-l10n-eo"
+      - "libreoffice-l10n-eo"
+      - "myspell-eo"
+      - "task-esperanto-desktop"
+
+  es:
+    name: Spanish
+    patterns:
+      - "aspell-es"
+      - "aspell-gl-minimos"
+      - "firefox-esr-l10n-es-ar"
+      - "firefox-esr-l10n-es-cl"
+      - "firefox-esr-l10n-es-es"
+      - "firefox-esr-l10n-es-mx"
+      - "hunspell-es"
+      - "ispanish"
+      - "libreoffice-help-es"
+      - "libreoffice-l10n-es"
+      - "myspell-es"
+      - "task-spanish-desktop"
+      - "wspanish"
+
+  et:
+    name: Estonian
+    patterns:
+      - "aspell-et"
+      - "firefox-esr-l10n-et"
+      - "libreoffice-help-et"
+      - "libreoffice-l10n-et"
+      - "myspell-et"
+      - "task-estonian-desktop"
+
+  eu:
+    name: Basque
+    patterns:
+      - "aspell-eu"
+      - "firefox-esr-l10n-eu"
+      - "hunspell-eu"
+      - "libreoffice-help-eu"
+      - "libreoffice-l10n-eu"
+      - "task-basque-desktop"
+
+  fa:
+    name: Persian
+    patterns:
+      - "aspell-fa"
+      - "firefox-esr-l10n-fa"
+      - "fonts-farsiweb"
+      - "fonts-sahel-variable"
+      - "fonts-vazirmatn-variable"
+      - "myspell-fa"
+      - "task-persian-desktop"
+
+  fi:
+    name: Finnish
+    patterns:
+      - "firefox-esr-l10n-fi"
+      - "libreoffice-help-fi"
+      - "libreoffice-l10n-fi"
+      - "task-finnish-desktop"
+
+  fr:
+    name: French
+    patterns:
+      - "aspell-fr"
+      - "firefox-esr-l10n-fr"
+      - "hunspell-fr"
+      - "hunspell-fr-classical"
+      - "ifrench-gut"
+      - "libreoffice-help-fr"
+      - "libreoffice-l10n-fr"
+      - "mythes-fr"
+      - "task-french-desktop"
+      - "wfrench"
+
+  ga:
+    name: Irish
+    patterns:
+      - "aspell-ga"
+      - "firefox-esr-l10n-ga-ie"
+      - "myspell-ga"
+      - "task-irish-desktop"
+
+  gl:
+    name: Galician
+    patterns:
+      - "aspell-gl-minimos"
+      - "firefox-esr-l10n-gl"
+      - "hunspell-gl"
+      - "hunspell-gl-es"
+      - "libreoffice-help-gl"
+      - "libreoffice-l10n-gl"
+      - "task-galician-desktop"
+
+  gu:
+    name: Gujarati
+    patterns:
+      - "firefox-esr-l10n-gu-in"
+      - "fonts-gujr"
+      - "fonts-gujr-extra"
+      - "fonts-kalapi"
+      - "fonts-lohit-gujr"
+      - "fonts-samyak-gujr"
+      - "fonts-yrsa-rasa"
+      - "hunspell-gu"
+      - "libreoffice-l10n-gu"
+      - "task-gujarati-desktop"
+
+  he:
+    name: Hebrew
+    patterns:
+      - "aspell-he"
+      - "culmus"
+      - "firefox-esr-l10n-he"
+      - "fonts-culmus"
+      - "hspell"
+      - "hspell-gui"
+      - "libreoffice-l10n-he"
+      - "myspell-he"
+      - "task-hebrew-desktop"
+      - "task-hebrew-gnome-desktop"
+
+  hi:
+    name: Hindi
+    patterns:
+      - "firefox-esr-l10n-hi-in"
+      - "fonts-deva-extra"
+      - "fonts-gargi"
+      - "fonts-lohit-deva"
+      - "fonts-nakula"
+      - "fonts-sahadeva"
+      - "fonts-samyak-deva"
+      - "fonts-sarai"
+      - "hunspell-hi"
+      - "libreoffice-help-hi"
+      - "libreoffice-l10n-hi"
+      - "task-hindi-desktop"
+
+  hr:
+    name: Croatian
+    patterns:
+      - "aspell-hr"
+      - "firefox-esr-l10n-hr"
+      - "hunspell-hr"
+      - "hyphen-hr"
+      - "libreoffice-l10n-hr"
+      - "task-croatian-desktop"
+
+  hu:
+    name: Hungarian
+    patterns:
+      - "aspell-hu"
+      - "firefox-esr-l10n-hu"
+      - "hunspell-hu"
+      - "hyphen-hu"
+      - "ihungarian"
+      - "libreoffice-help-hu"
+      - "libreoffice-l10n-hu"
+      - "task-hungarian-desktop"
+
+  id:
+    name: Indonesian
+    patterns:
+      - "firefox-esr-l10n-id"
+      - "hunspell-id"
+      - "libreoffice-l10n-id"
+      - "task-indonesian-desktop"
+
+  is:
+    name: Icelandic
+    patterns:
+      - "aspell-is"
+      - "firefox-esr-l10n-is"
+      - "hunspell-is"
+      - "libreoffice-l10n-is"
+      - "task-icelandic-desktop"
+
+  it:
+    name: Italian
+    patterns:
+      - "aspell-it"
+      - "firefox-esr-l10n-it"
+      - "hunspell-it"
+      - "iitalian"
+      - "libreoffice-help-it"
+      - "libreoffice-l10n-it"
+      - "mythes-it"
+      - "task-italian-desktop"
+      - "witalian"
+
+  ja:
+    name: Japanese
+    patterns:
+      - "anthy"
+      - "anthy-common"
+      - "firefox-esr-l10n-ja"
+      - "fonts-ipafont"
+      - "fonts-ipafont-gothic"
+      - "fonts-ipafont-mincho"
+      - "fonts-noto-cjk"
+      - "fonts-noto-cjk-extra"
+      - "fonts-vlgothic"
+      - "ibus-mozc"
+      - "kasumi"
+      - "libanthy1*"
+      - "libanthyinput0*"
+      - "libreoffice-help-ja"
+      - "libreoffice-l10n-ja"
+      - "mozc-data"
+      - "mozc-server"
+      - "mozc-utils-gui"
+      - "task-japanese-desktop"
+      - "task-japanese-gnome-desktop"
+      - "uim"
+      - "uim-mozc"
+
+  ka:
+    name: Georgian
+    patterns:
+      - "fonts-bpg-georgian"
+      - "libreoffice-l10n-ka"
+      - "task-georgian-desktop"
+
+  kk:
+    name: Kazakh
+    patterns:
+      - "aspell-kk"
+      - "firefox-esr-l10n-kk"
+      - "hunspell-kk"
+      - "task-kazakh-desktop"
+
+  km:
+    name: Khmer
+    patterns:
+      - "firefox-esr-l10n-km"
+      - "fonts-khmeros"
+      - "libreoffice-help-km"
+      - "libreoffice-l10n-km"
+      - "task-khmer-desktop"
+
+  kn:
+    name: Kannada
+    patterns:
+      - "firefox-esr-l10n-kn"
+      - "fonts-lohit-knda"
+      - "task-kannada-desktop"
+
+  ko:
+    name: Korean
+    patterns:
+      - "firefox-esr-l10n-ko"
+      - "fonts-nanum"
+      - "hunspell-ko"
+      - "ibus-hangul"
+      - "libhangul-data"
+      - "libhangul1"
+      - "libreoffice-help-ko"
+      - "libreoffice-l10n-ko"
+      - "task-korean-desktop"
+      - "task-korean-gnome-desktop"
+
+  ku:
+    name: Kurdish
+    patterns:
+      - "aspell-ku"
+      - "fonts-unikurdweb"
+      - "task-kurdish-desktop"
+
+  lt:
+    name: Lithuanian
+    patterns:
+      - "aspell-lt"
+      - "firefox-esr-l10n-lt"
+      - "hunspell-lt"
+      - "hyphen-lt"
+      - "ilithuanian"
+      - "libreoffice-l10n-lt"
+      - "task-lithuanian-desktop"
+
+  lv:
+    name: Latvian
+    patterns:
+      - "aspell-lv"
+      - "firefox-esr-l10n-lv"
+      - "hunspell-lv"
+      - "libreoffice-l10n-lv"
+      - "task-latvian-desktop"
+
+  mk:
+    name: Macedonian
+    patterns:
+      - "firefox-esr-l10n-mk"
+      - "libreoffice-l10n-mk"
+      - "task-macedonian-desktop"
+
+  ml:
+    name: Malayalam
+    patterns:
+      - "fonts-lohit-mlym"
+      - "fonts-mlym"
+      - "fonts-samyak-mlym"
+      - "fonts-smc*"
+      - "hunspell-ml"
+      - "libreoffice-l10n-ml"
+      - "task-malayalam-desktop"
+      - "task-malayalam-gnome-desktop"
+
+  mr:
+    name: Marathi
+    patterns:
+      - "firefox-esr-l10n-mr"
+      - "libreoffice-l10n-mr"
+      - "task-marathi-desktop"
+
+  ne:
+    name: Nepali
+    patterns:
+      - "firefox-esr-l10n-ne-np"
+      - "hunspell-ne"
+      - "libreoffice-l10n-ne"
+      - "mythes-ne"
+      - "task-nepali-desktop"
+
+  nl:
+    name: Dutch
+    patterns:
+      - "aspell-nl"
+      - "firefox-esr-l10n-nl"
+      - "hunspell-nl"
+      - "idutch"
+      - "libreoffice-help-nl"
+      - "libreoffice-l10n-nl"
+      - "task-dutch-desktop"
+      - "wdutch"
+
+  "no":
+    name: Norwegian
+    patterns:
+      - "aspell-no"
+      - "firefox-esr-l10n-nb-no"
+      - "firefox-esr-l10n-nn-no"
+      - "inorwegian"
+      - "libreoffice-l10n-nb"
+      - "libreoffice-l10n-nn"
+      - "myspell-nb"
+      - "myspell-nn"
+      - "task-norwegian-desktop"
+      - "wnorwegian"
+
+  pa:
+    name: Punjabi
+    patterns:
+      - "firefox-esr-l10n-pa-in"
+      - "fonts-guru"
+      - "fonts-guru-extra"
+      - "fonts-lohit-guru"
+      - "libreoffice-l10n-pa-in"
+      - "task-punjabi-desktop"
+
+  pl:
+    name: Polish
+    patterns:
+      - "aspell-pl"
+      - "firefox-esr-l10n-pl"
+      - "hunspell-pl"
+      - "ipolish"
+      - "libreoffice-help-pl"
+      - "libreoffice-l10n-pl"
+      - "mythes-pl"
+      - "task-polish-desktop"
+      - "wpolish"
+
+  pt:
+    name: Portuguese (European)
+    patterns:
+      - "aspell-pt-pt"
+      - "firefox-esr-l10n-pt-pt"
+      - "hunspell-pt-pt"
+      - "iportuguese"
+      - "libreoffice-help-pt"
+      - "libreoffice-l10n-pt"
+      - "task-portuguese-desktop"
+      - "wportuguese"
+
+  pt-br:
+    name: Portuguese (Brazilian)
+    patterns:
+      - "aspell-pt-br"
+      - "firefox-esr-l10n-pt-br"
+      - "hunspell-pt-br"
+      - "ibrazilian"
+      - "libreoffice-l10n-pt-br"
+      - "task-brazilian-portuguese-desktop"
+      - "wbrazilian"
+
+  ro:
+    name: Romanian
+    patterns:
+      - "aspell-ro"
+      - "firefox-esr-l10n-ro"
+      - "hunspell-ro"
+      - "libreoffice-l10n-ro"
+      - "task-romanian-desktop"
+
+  ru:
+    name: Russian
+    patterns:
+      - "aspell-ru"
+      - "firefox-esr-l10n-ru"
+      - "hunspell-ru"
+      - "irussian"
+      - "libreoffice-help-ru"
+      - "libreoffice-l10n-ru"
+      - "mythes-ru"
+      - "t1-cyrillic"
+      - "task-cyrillic-desktop"
+      - "task-russian-desktop"
+
+  si:
+    name: Sinhala
+    patterns:
+      - "firefox-esr-l10n-si"
+      - "hunspell-si"
+      - "libreoffice-l10n-si"
+      - "task-sinhala-desktop"
+
+  sk:
+    name: Slovak
+    patterns:
+      - "aspell-sk"
+      - "firefox-esr-l10n-sk"
+      - "libreoffice-help-sk"
+      - "libreoffice-l10n-sk"
+      - "myspell-sk"
+      - "mythes-sk"
+      - "task-slovak-desktop"
+
+  sl:
+    name: Slovenian
+    patterns:
+      - "aspell-sl"
+      - "firefox-esr-l10n-sl"
+      - "libreoffice-help-sl"
+      - "libreoffice-l10n-sl"
+      - "task-slovenian-desktop"
+
+  sq:
+    name: Albanian
+    patterns:
+      - "firefox-esr-l10n-sq"
+      - "myspell-sq"
+      - "task-albanian-desktop"
+
+  sr:
+    name: Serbian
+    patterns:
+      - "firefox-esr-l10n-sr"
+      - "hunspell-sr"
+      - "libreoffice-l10n-sr"
+      - "task-serbian-desktop"
+
+  sv:
+    name: Swedish
+    patterns:
+      - "aspell-sv"
+      - "firefox-esr-l10n-sv-se"
+      - "gimp-help-sv"
+      - "hunspell-sv"
+      - "hunspell-sv-se"
+      - "libreoffice-help-sv"
+      - "libreoffice-l10n-sv"
+      - "task-swedish-desktop"
+      - "wswedish"
+
+  ta:
+    name: Tamil
+    patterns:
+      - "firefox-esr-l10n-ta"
+      - "fonts-lohit-taml"
+      - "fonts-lohit-taml-classical"
+      - "fonts-samyak-taml"
+      - "fonts-taml"
+      - "libreoffice-l10n-ta"
+      - "task-tamil-desktop"
+      - "task-tamil-gnome-desktop"
+
+  te:
+    name: Telugu
+    patterns:
+      - "firefox-esr-l10n-te"
+      - "fonts-lohit-telu"
+      - "fonts-telu"
+      - "fonts-telu-extra"
+      - "fonts-teluguvijayam"
+      - "hunspell-te"
+      - "libreoffice-l10n-te"
+      - "task-telugu-desktop"
+      - "task-telugu-gnome-desktop"
+
+  th:
+    name: Thai
+    patterns:
+      - "fonts-arundina"
+      - "fonts-thai-tlwg"
+      - "fonts-tlwg-*"
+      - "task-thai-desktop"
+      - "task-thai-gnome-desktop"
+      - "xfonts-thai*"
+      - "xiterm+thai"
+
+  tl:
+    name: Tagalog
+    patterns:
+      - "aspell-tl"
+
+  tr:
+    name: Turkish
+    patterns:
+      - "firefox-esr-l10n-tr"
+      - "libreoffice-l10n-tr"
+      - "task-turkish-desktop"
+
+  ug:
+    name: Uyghur
+    patterns:
+      - "fonts-ukij-uyghur"
+      - "libreoffice-l10n-ug"
+      - "task-uyghur-desktop"
+
+  uk:
+    name: Ukrainian
+    patterns:
+      - "aspell-uk"
+      - "firefox-esr-l10n-uk"
+      - "libreoffice-l10n-uk"
+      - "myspell-uk"
+      - "task-cyrillic-desktop"
+      - "task-ukrainian-desktop"
+
+  vi:
+    name: Vietnamese
+    patterns:
+      - "firefox-esr-l10n-vi"
+      - "hunspell-vi"
+      - "libreoffice-l10n-vi"
+      - "task-vietnamese-desktop"
+
+  xh:
+    name: Xhosa
+    patterns:
+      - "libreoffice-l10n-xh"
+      - "task-xhosa-desktop"
+
+  zh-cn:
+    name: Chinese (Simplified)
+    patterns:
+      - "firefox-esr-l10n-zh-cn"
+      - "fonts-noto-cjk"
+      - "fonts-noto-cjk-extra"
+      - "libreoffice-help-zh-cn"
+      - "libreoffice-l10n-zh-cn"
+      - "libopencc-data"
+      - "libopencc1.1"
+      - "task-chinese-s-desktop"
+
+  zh-tw:
+    name: Chinese (Traditional)
+    patterns:
+      - "firefox-esr-l10n-zh-tw"
+      - "fonts-noto-cjk"
+      - "fonts-noto-cjk-extra"
+      - "libreoffice-help-zh-tw"
+      - "libreoffice-l10n-zh-tw"
+      - "task-chinese-t-desktop"

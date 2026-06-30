@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Debian Desktop Optimizer
+GenericName=System Optimizer
+Comment=Remove unnecessary packages from your Debian desktop
+Exec=ddo-gui
+Icon=debian-desktop-optimizer
+Terminal=false
+Categories=System;Settings;PackageManager;
+Keywords=debian;cleanup;bloatware;language;optimization;
+StartupNotify=true
+StartupWMClass=ddo

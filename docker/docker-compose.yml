@@ -1,0 +1,33 @@
+services:
+  ddo-ci:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: ddo-ci:latest
+    container_name: ddo-ci
+    volumes:
+      - ..:/app:ro
+    environment:
+      - DEBIAN_FRONTEND=noninteractive
+      - DISPLAY=:99
+    command: >
+      bash -c "
+        Xvfb :99 -screen 0 1024x768x24 &
+        sleep 1 &&
+        echo '=== Ruff ===' && ruff check src/ tests/ &&
+        echo '=== Black (check) ===' && black --check src/ tests/ &&
+        echo '=== Mypy ===' && mypy src/ddo/backend/ src/ddo/models/ src/ddo/utils/ &&
+        echo '=== Pytest ===' && pytest --cov=ddo --cov-report=xml --cov-report=term-missing
+      "
+
+  ddo-shell:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: ddo-ci:latest
+    container_name: ddo-shell
+    volumes:
+      - ..:/app
+    stdin_open: true
+    tty: true
+    command: bash

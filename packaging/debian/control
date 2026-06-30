@@ -1,0 +1,36 @@
+Source: debian-desktop-optimizer
+Section: admin
+Priority: optional
+Maintainer: DDO Contributors <ddo@example.com>
+Build-Depends:
+ debhelper-compat (= 13),
+ dh-python,
+ python3-all,
+ python3-setuptools,
+ python3-pip,
+Standards-Version: 4.6.2
+Homepage: https://github.com/debian-desktop-optimizer/ddo
+Vcs-Git: https://github.com/debian-desktop-optimizer/ddo.git
+Vcs-Browser: https://github.com/debian-desktop-optimizer/ddo
+Rules-Requires-Root: no
+
+Package: debian-desktop-optimizer
+Architecture: all
+Depends:
+ ${python3:Depends},
+ ${misc:Depends},
+ python3-pyqt6,
+ python3-yaml,
+Description: Remove bloatware from fresh Debian desktop installations
+ Debian Desktop Optimizer helps remove unnecessary language packs, fonts,
+ input methods, games, dictionaries and optional desktop components from
+ a freshly installed Debian system, while preserving the user's chosen
+ languages.
+ .
+ Features:
+  * Graphical wizard for first-run setup
+  * Command-line interface with rich output
+  * Shared backend — no duplicated logic
+  * Safe simulation before any changes
+  * Rollback/restore support
+  * YAML-driven language database
