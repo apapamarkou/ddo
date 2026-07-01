@@ -222,6 +222,10 @@ class AnalysisPage(QWizardPage):
         self._worker.start()
 
     def _run_analysis(self) -> object:
+        wizard = self.wizard()
+        assert isinstance(wizard, FirstRunWizard)
+        selected_keys = set(wizard._options_page.selected_categories())
+
         detected = self._lang.detect_installed()
         lang_pkgs_by_code = {i.code: i.installed_packages for i in detected}
         lang_to_remove: list[str] = []
@@ -233,6 +237,8 @@ class AnalysisPage(QWizardPage):
             self._apt, self._pkg, progress_callback=lambda m: self._worker.progress.emit(m)
         )
         categories = engine.build_categories(self._config.kept_languages, lang_pkgs_by_code)
+        for cat in categories:
+            cat.enabled = cat.key in selected_keys
         plan = engine.analyze(categories, lang_to_remove, dry_run=True)
         return plan
 
@@ -302,6 +308,10 @@ class ExecutePage(QWizardPage):
         self._worker.start()
 
     def _run_cleanup(self) -> None:
+        wizard = self.wizard()
+        assert isinstance(wizard, FirstRunWizard)
+        selected_keys = set(wizard._options_page.selected_categories())
+
         detected = self._lang.detect_installed()
         lang_pkgs_by_code = {i.code: i.installed_packages for i in detected}
         lang_to_remove: list[str] = []
@@ -313,13 +323,17 @@ class ExecutePage(QWizardPage):
 
         restore = RestoreEngine(self._apt)
 
-        all_pkgs = list(lang_to_remove)
         engine = CleanupEngine(
             self._apt, self._pkg, progress_callback=lambda m: self._worker.progress.emit(m)
         )
         categories = engine.build_categories(self._config.kept_languages, lang_pkgs_by_code)
         for cat in categories:
-            all_pkgs.extend(cat.packages_to_remove)
+            cat.enabled = cat.key in selected_keys
+
+        all_pkgs = list(lang_to_remove)
+        for cat in categories:
+            if cat.enabled:
+                all_pkgs.extend(cat.packages_to_remove)
         restore.save_rollback(all_pkgs, "First-run wizard cleanup")
 
         plan = engine.analyze(categories, lang_to_remove, dry_run=False)
