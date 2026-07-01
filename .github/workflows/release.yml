@@ -46,9 +46,6 @@ jobs:
             build-essential devscripts debhelper dh-python \
             fakeroot lintian ca-certificates git
 
-      - name: Install project
-        run: pip install --break-system-packages -e .
-
       - name: Build .deb
         run: |
           cd packaging
