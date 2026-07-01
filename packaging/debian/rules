@@ -2,6 +2,8 @@
 
 PKG     := debian-desktop-optimizer
 DESTDIR := $(CURDIR)/debian/$(PKG)
+PYVER   := $(shell python3 -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')")
+SITEPKG := $(DESTDIR)/usr/lib/python3/dist-packages
 
 %:
 	dh $@ --with python3
@@ -13,7 +15,20 @@ override_dh_auto_build:
 	cd .. && python3 -m build --wheel --no-isolation --outdir $(CURDIR)/dist
 
 override_dh_auto_install:
-	python3 -m installer --destdir=$(DESTDIR) --prefix=/usr $(CURDIR)/dist/*.whl
+	# Unpack wheel (it's a zip) into dist-packages
+	mkdir -p $(SITEPCKG)
+	cd $(CURDIR)/dist && python3 -c \
+		"import zipfile, glob; \
+		 [zipfile.ZipFile(f).extractall('$(SITEPCKG)') for f in glob.glob('*.whl')]"
+	# Remove dist-info (not needed at runtime, dh_python3 handles metadata)
+	rm -rf $(SITEPCKG)/*.dist-info $(SITEPCKG)/*.egg-info
+	# Create entry point scripts
+	mkdir -p $(DESTDIR)/usr/bin
+	printf '#!/usr/bin/python3\nfrom ddo.ui.cli.main import main\nmain()\n' \
+		> $(DESTDIR)/usr/bin/ddo
+	printf '#!/usr/bin/python3\nfrom ddo.ui.qt.app import main\nmain()\n' \
+		> $(DESTDIR)/usr/bin/ddo-gui
+	chmod 755 $(DESTDIR)/usr/bin/ddo $(DESTDIR)/usr/bin/ddo-gui
 	# Install desktop entry
 	install -Dm644 ../packaging/ddo.desktop \
 		$(DESTDIR)/usr/share/applications/ddo.desktop
@@ -28,4 +43,4 @@ override_dh_auto_install:
 		$(DESTDIR)/usr/share/bash-completion/completions/ddo
 
 override_dh_auto_clean:
-	rm -rf ../build ../src/*.egg-info
+	rm -rf ../build ../src/*.egg-info dist
