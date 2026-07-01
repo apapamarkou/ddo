@@ -10,10 +10,10 @@ override_dh_auto_configure:
 	# nothing to configure
 
 override_dh_auto_build:
-	cd .. && pip3 install --no-build-isolation --no-deps --prefix=/usr \
-		--install-layout=deb --root=$(DESTDIR) .
+	cd .. && python3 -m build --wheel --no-isolation --outdir $(CURDIR)/dist
 
 override_dh_auto_install:
+	python3 -m installer --destdir=$(DESTDIR) $(CURDIR)/dist/*.whl
 	# Install desktop entry
 	install -Dm644 ../packaging/ddo.desktop \
 		$(DESTDIR)/usr/share/applications/ddo.desktop
