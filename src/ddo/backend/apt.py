@@ -261,7 +261,7 @@ class AptManager:
         if not packages:
             return SimulationResult()
 
-        cmd = [self._apt, "-s", "--auto-remove", "purge", *packages]
+        cmd = [self._apt, "-s", "purge", *packages]
         result = self._run(cmd, check=False)
         output = result.stdout + result.stderr
 
@@ -338,7 +338,7 @@ class AptManager:
                     f"Aborting purge — simulation detected unsafe removals: "
                     f"{sim.dangerous_packages}"
                 )
-        self._run([self._apt, "-y", "--purge", "remove", *packages])
+        self._run([self._apt, "-y", "--purge", "remove", "--no-auto-remove", *packages])
         logger.info("Purged %d package(s)", len(packages))
 
     def install(self, packages: list[str]) -> None:
