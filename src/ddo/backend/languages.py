@@ -21,9 +21,9 @@ from ddo.backend.packages import PackageManager
 logger = logging.getLogger(__name__)
 
 # Built-in path to the bundled language database.
-_DEFAULT_DB: Path = (
-    Path(__file__).parent.parent.parent.parent / "data" / "languages" / "languages.yaml"
-)
+_SYSTEM_DB = Path("/usr/share/ddo/languages/languages.yaml")
+_SOURCE_DB = Path(__file__).parent.parent.parent.parent / "data" / "languages" / "languages.yaml"
+_DEFAULT_DB: Path = _SYSTEM_DB if _SYSTEM_DB.exists() else _SOURCE_DB
 
 
 @dataclass
