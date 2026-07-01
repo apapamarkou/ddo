@@ -143,6 +143,7 @@ class LanguageSelectionPage(QWizardPage):
 
 class CleanupOptionsPage(QWizardPage):
     _OPTION_LABELS: tuple[tuple[str, str], ...] = (
+        ("bloatware", "Remove bloatware (xterm, shotwell, mlterm)"),
         ("games", "Remove games"),
         ("input_methods", "Remove Asian input methods"),
         ("spellcheckers", "Remove unused spellcheckers"),

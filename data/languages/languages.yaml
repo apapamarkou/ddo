@@ -350,6 +350,9 @@ languages:
       - "mozc-data"
       - "mozc-server"
       - "mozc-utils-gui"
+      - "task-japanese-desktop"
+      - "task-japanese-gnome-desktop"
+      - "thunderbird-l10n-ja"
       - "uim"
       - "uim-mozc"
 
