@@ -16,12 +16,12 @@ override_dh_auto_build:
 
 override_dh_auto_install:
 	# Unpack wheel (it's a zip) into dist-packages
-	mkdir -p $(SITEPCKG)
+	mkdir -p $(SITEPKG)
 	cd $(CURDIR)/dist && python3 -c \
 		"import zipfile, glob; \
-		 [zipfile.ZipFile(f).extractall('$(SITEPCKG)') for f in glob.glob('*.whl')]"
-	# Remove dist-info (not needed at runtime, dh_python3 handles metadata)
-	rm -rf $(SITEPCKG)/*.dist-info $(SITEPCKG)/*.egg-info
+		 [zipfile.ZipFile(f).extractall('$(SITEPKG)') for f in glob.glob('*.whl')]"
+	# Remove dist-info and egg-info
+	rm -rf $(SITEPKG)/*.dist-info $(SITEPKG)/*.egg-info
 	# Create entry point scripts
 	mkdir -p $(DESTDIR)/usr/bin
 	printf '#!/usr/bin/python3\nfrom ddo.ui.cli.main import main\nmain()\n' \
