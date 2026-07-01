@@ -11,7 +11,7 @@ override_dh_auto_configure:
 
 override_dh_auto_build:
 	cd .. && pip3 install --no-build-isolation --no-deps --prefix=/usr \
-		--root=$(DESTDIR) .
+		--install-layout=deb --root=$(DESTDIR) .
 
 override_dh_auto_install:
 	# Install desktop entry
