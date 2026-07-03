@@ -9,7 +9,6 @@ import pytest
 from ddo.backend.apt import AptManager
 from ddo.backend.exceptions import (
     DangerousOperationError,
-    PermissionError,
 )
 
 
@@ -48,15 +47,26 @@ class TestAptManagerInstalled:
 
 
 class TestAptManagerPermissions:
-    def test_update_requires_root(self) -> None:
+    def test_update_uses_pkexec_when_not_root(self) -> None:
         apt = AptManager()
-        with patch("os.geteuid", return_value=1000), pytest.raises(PermissionError):
+        with patch("os.geteuid", return_value=1000), patch.object(apt, "_run") as mock_run:
             apt.update()
+            cmd = mock_run.call_args[0][0]
+            assert cmd[0] == "pkexec"
 
-    def test_purge_requires_root(self) -> None:
+    def test_purge_uses_pkexec_when_not_root(self) -> None:
+        from ddo.backend.apt import SimulationResult
+
         apt = AptManager()
-        with patch("os.geteuid", return_value=1000), pytest.raises(PermissionError):
+        safe_sim = SimulationResult(to_remove=["foo"], dangerous_packages=[], space_freed_bytes=0)
+        with (
+            patch("os.geteuid", return_value=1000),
+            patch.object(apt, "simulate", return_value=safe_sim),
+            patch.object(apt, "_run") as mock_run,
+        ):
             apt.purge(["foo"])
+            cmd = mock_run.call_args[0][0]
+            assert cmd[0] == "pkexec"
 
 
 class TestAptManagerSafety:

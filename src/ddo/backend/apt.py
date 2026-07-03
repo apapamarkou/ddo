@@ -17,7 +17,6 @@ from ddo.backend.exceptions import (
     AptError,
     AptSimulationError,
     DangerousOperationError,
-    PermissionError,
 )
 
 logger = logging.getLogger(__name__)
@@ -153,7 +152,7 @@ class AptManager:
         """Prefix *cmd* with pkexec when not already running as root."""
         if os.geteuid() == 0:
             return cmd
-        return ["pkexec", "--disable-internal-agent"] + cmd
+        return ["pkexec", "--disable-internal-agent", *cmd]
 
     def _validate_packages(self, packages: list[str]) -> None:
         dangerous = [p for p in packages if p in _CRITICAL_PACKAGES]
@@ -308,12 +307,17 @@ class AptManager:
     def upgrade(self) -> None:
         """Run ``apt-get upgrade``."""
         result = self._run(
-            self._privileged([
-                self._apt, "-y",
-                "-o", "Dpkg::Options::=--force-confdef",
-                "-o", "Dpkg::Options::=--force-confold",
-                "upgrade",
-            ]),
+            self._privileged(
+                [
+                    self._apt,
+                    "-y",
+                    "-o",
+                    "Dpkg::Options::=--force-confdef",
+                    "-o",
+                    "Dpkg::Options::=--force-confold",
+                    "upgrade",
+                ]
+            ),
             check=False,
         )
         if result.returncode != 0:
@@ -345,9 +349,9 @@ class AptManager:
                     f"Aborting purge — simulation detected unsafe removals: "
                     f"{sim.dangerous_packages}"
                 )
-        self._run(self._privileged(
-            [self._apt, "-y", "--purge", "remove", "--no-auto-remove", *packages]
-        ))
+        self._run(
+            self._privileged([self._apt, "-y", "--purge", "remove", "--no-auto-remove", *packages])
+        )
         logger.info("Purged %d package(s)", len(packages))
 
     def install(self, packages: list[str]) -> None:
