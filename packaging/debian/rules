@@ -38,6 +38,9 @@ override_dh_auto_install:
 	# Install data files
 	install -Dm644 ../data/languages/languages.yaml \
 		$(DESTDIR)/usr/share/ddo/languages/languages.yaml
+	# Install polkit policy
+	install -Dm644 ../packaging/polkit/com.github.apapamarkou.ddo.policy \
+		$(DESTDIR)/usr/share/polkit-1/actions/com.github.apapamarkou.ddo.policy
 	# Install shell completions
 	install -Dm644 ../packaging/completions/ddo.bash \
 		$(DESTDIR)/usr/share/bash-completion/completions/ddo

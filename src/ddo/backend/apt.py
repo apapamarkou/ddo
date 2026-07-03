@@ -147,11 +147,13 @@ class AptManager:
 
     @staticmethod
     def _check_root() -> None:
-        if os.geteuid() != 0:
-            raise PermissionError(
-                "Root privileges are required for this operation. "
-                "Re-run with sudo or via PolicyKit."
-            )
+        """No-op: privilege is handled per-command via pkexec."""
+
+    def _privileged(self, cmd: list[str]) -> list[str]:
+        """Prefix *cmd* with pkexec when not already running as root."""
+        if os.geteuid() == 0:
+            return cmd
+        return ["pkexec", "--disable-internal-agent"] + cmd
 
     def _validate_packages(self, packages: list[str]) -> None:
         dangerous = [p for p in packages if p in _CRITICAL_PACKAGES]
@@ -300,29 +302,32 @@ class AptManager:
 
     def update(self) -> None:
         """Run ``apt-get update``."""
-        self._check_root()
-        self._run([self._apt, "-y", "update"])
+        self._run(self._privileged([self._apt, "-y", "update"]))
         logger.info("Package database updated")
 
     def upgrade(self) -> None:
         """Run ``apt-get upgrade``."""
-        self._check_root()
-        result = self._run([self._apt, "-y", "-o", "Dpkg::Options::=--force-confdef",
-                            "-o", "Dpkg::Options::=--force-confold", "upgrade"], check=False)
+        result = self._run(
+            self._privileged([
+                self._apt, "-y",
+                "-o", "Dpkg::Options::=--force-confdef",
+                "-o", "Dpkg::Options::=--force-confold",
+                "upgrade",
+            ]),
+            check=False,
+        )
         if result.returncode != 0:
             logger.warning("apt-get upgrade exited %d: %s", result.returncode, result.stderr)
         logger.info("System upgraded")
 
     def autoremove(self) -> None:
         """Run ``apt-get autoremove --purge``."""
-        self._check_root()
-        self._run([self._apt, "-y", "--purge", "autoremove"])
+        self._run(self._privileged([self._apt, "-y", "--purge", "autoremove"]))
         logger.info("Autoremove complete")
 
     def autoclean(self) -> None:
         """Run ``apt-get autoclean``."""
-        self._check_root()
-        self._run([self._apt, "-y", "autoclean"])
+        self._run(self._privileged([self._apt, "-y", "autoclean"]))
         logger.info("Autoclean complete")
 
     def purge(self, packages: list[str], *, force: bool = False) -> None:
@@ -330,7 +335,6 @@ class AptManager:
 
         Pass ``force=True`` only in tests/mock environments.
         """
-        self._check_root()
         if not packages:
             return
         if not force:
@@ -341,13 +345,14 @@ class AptManager:
                     f"Aborting purge — simulation detected unsafe removals: "
                     f"{sim.dangerous_packages}"
                 )
-        self._run([self._apt, "-y", "--purge", "remove", "--no-auto-remove", *packages])
+        self._run(self._privileged(
+            [self._apt, "-y", "--purge", "remove", "--no-auto-remove", *packages]
+        ))
         logger.info("Purged %d package(s)", len(packages))
 
     def install(self, packages: list[str]) -> None:
         """Install *packages*."""
-        self._check_root()
         if not packages:
             return
-        self._run([self._apt, "-y", "install", *packages])
+        self._run(self._privileged([self._apt, "-y", "install", *packages]))
         logger.info("Installed %d package(s)", len(packages))

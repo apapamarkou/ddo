@@ -21,6 +21,7 @@ Depends:
  ${misc:Depends},
  python3-pyqt6,
  python3-yaml,
+ policykit-1,
 Description: Remove bloatware from fresh Debian desktop installations
  Debian Desktop Optimizer helps remove unnecessary language packs, fonts,
  input methods, games, dictionaries and optional desktop components from
