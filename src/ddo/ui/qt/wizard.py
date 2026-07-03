@@ -142,21 +142,22 @@ class LanguageSelectionPage(QWizardPage):
 
 
 class CleanupOptionsPage(QWizardPage):
-    _OPTION_LABELS: tuple[tuple[str, str], ...] = (
-        ("bloatware", "Remove bloatware (xterm, shotwell, mlterm)"),
-        ("games", "Remove games"),
-        ("input_methods", "Remove Asian input methods"),
-        ("spellcheckers", "Remove unused spellcheckers"),
-        ("ocr_data", "Remove OCR data"),
-        ("speech", "Remove speech synthesis"),
-        ("accessibility", "Remove accessibility tools (screen readers)"),
-        ("printing", "Remove printing support"),
-        ("bluetooth", "Remove Bluetooth"),
-        ("modem", "Remove modem/mobile broadband support"),
-        ("server_packages", "Remove server packages"),
-        ("development", "Remove development tools"),
-        ("unused_docs", "Remove unused documentation"),
-        ("unused_firmware", "Remove unused firmware"),
+    # (key, label, checked_by_default)
+    _OPTION_LABELS: tuple[tuple[str, str, bool], ...] = (
+        ("input_methods", "Remove Asian input methods", True),
+        ("spellcheckers", "Remove unused spellcheckers", True),
+        ("games", "Remove games", False),
+        ("ocr_data", "Remove OCR data", False),
+        ("speech", "Remove speech synthesis", False),
+        ("accessibility", "Remove accessibility tools (screen readers)", False),
+        ("printing", "Remove printing support", False),
+        ("bluetooth", "Remove Bluetooth", False),
+        ("modem", "Remove modem/mobile broadband support", False),
+        ("server_packages", "Remove server packages", False),
+        ("development", "Remove development tools", False),
+        ("unused_docs", "Remove unused documentation", False),
+        ("unused_firmware", "Remove unused firmware", False),
+        ("bloatware", "Remove bloatware (xterm, shotwell, mlterm)", False),
     )
 
     def __init__(self, parent: QWizard) -> None:
@@ -166,16 +167,25 @@ class CleanupOptionsPage(QWizardPage):
 
         layout = QVBoxLayout()
         self._checkboxes: dict[str, QCheckBox] = {}
-        for key, label in self._OPTION_LABELS:
+        for key, label, default in self._OPTION_LABELS:
             cb = QCheckBox(label)
-            cb.setChecked(True)
+            cb.setChecked(default)
             self._checkboxes[key] = cb
             layout.addWidget(cb)
+
         layout.addStretch()
+
+        self._view_details = QCheckBox("View details (show package list and apt output)")
+        self._view_details.setChecked(False)
+        layout.addWidget(self._view_details)
+
         self.setLayout(layout)
 
     def selected_categories(self) -> list[str]:
         return [k for k, cb in self._checkboxes.items() if cb.isChecked()]
+
+    def view_details(self) -> bool:
+        return self._view_details.isChecked()
 
 
 # ---------------------------------------------------------------------------
@@ -250,6 +260,18 @@ class AnalysisPage(QWizardPage):
         from ddo.backend.cleanup import CleanupPlan
 
         assert isinstance(result, CleanupPlan)
+        wizard = self.wizard()
+        assert isinstance(wizard, FirstRunWizard)
+
+        if wizard._options_page.view_details():
+            for cat in result.categories:
+                if cat.enabled and cat.packages_to_remove:
+                    self._log.append(f"\n[{cat.label}]")
+                    self._log.append("  " + ", ".join(cat.packages_to_remove))
+            if result.language_packages_to_remove:
+                self._log.append("\n[Language packages]")
+                self._log.append("  " + ", ".join(result.language_packages_to_remove))
+
         self._log.append(
             f"\n✓ Analysis complete.\n"
             f"  Packages to remove: {format_package_count(result.total_packages)}\n"
@@ -300,8 +322,12 @@ class ExecutePage(QWizardPage):
         layout.addWidget(self._log)
         self.setLayout(layout)
         self._complete = False
+        self._view_details = False
 
     def initializePage(self) -> None:  # noqa: N802
+        wizard = self.wizard()
+        assert isinstance(wizard, FirstRunWizard)
+        self._view_details = wizard._options_page.view_details()
         self._worker = BackendWorker(self._run_cleanup)
         self._worker.progress.connect(self._on_progress)
         self._worker.finished.connect(self._on_done)
@@ -347,7 +373,9 @@ class ExecutePage(QWizardPage):
             self._apt.upgrade()
 
     def _on_progress(self, msg: str) -> None:
-        self._log.append(msg)
+        # Always show high-level messages; only show raw apt output if view_details
+        if self._view_details or not msg.startswith("apt-get"):
+            self._log.append(msg)
 
     def _on_done(self, _: object) -> None:
         self._log.append("\n✓ Cleanup complete!")

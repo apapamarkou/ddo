@@ -307,7 +307,10 @@ class AptManager:
     def upgrade(self) -> None:
         """Run ``apt-get upgrade``."""
         self._check_root()
-        self._run([self._apt, "-y", "upgrade"])
+        result = self._run([self._apt, "-y", "-o", "Dpkg::Options::=--force-confdef",
+                            "-o", "Dpkg::Options::=--force-confold", "upgrade"], check=False)
+        if result.returncode != 0:
+            logger.warning("apt-get upgrade exited %d: %s", result.returncode, result.stderr)
         logger.info("System upgraded")
 
     def autoremove(self) -> None:
