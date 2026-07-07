@@ -22,8 +22,8 @@ class AboutTab(QWidget):
             "<p>Remove unnecessary language packs, fonts, input methods,<br>"
             "and optional components from fresh Debian installations.</p>"
             "<p>License: <b>GPL-3.0-only</b></p>"
-            "<p><a href='https://github.com/debian-desktop-optimizer/ddo'>"
-            "github.com/debian-desktop-optimizer/ddo</a></p>"
+            "<p><a href='https://github.com/apapamarkou/ddo'>"
+            "github.com/apapamarkou/ddo</a></p>"
         )
         desc.setAlignment(Qt.AlignmentFlag.AlignCenter)
         desc.setOpenExternalLinks(True)
