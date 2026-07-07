@@ -39,6 +39,10 @@ class PackageManager:
             self._cache = self._apt.installed_packages()
         return self._cache
 
+    def packages_by_section(self, section: str) -> list[str]:
+        """Return names of installed packages whose dpkg Section matches *section*."""
+        return sorted(p.name for p in self.all_installed() if p.section == section)
+
     def filter_by_pattern(self, pattern: str) -> list[PackageInfo]:
         """Return installed packages whose name matches a glob *pattern*."""
         return [pkg for pkg in self.all_installed() if fnmatch.fnmatch(pkg.name, pattern)]

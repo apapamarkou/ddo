@@ -40,26 +40,8 @@ _CATEGORY_REGISTRY: dict[str, dict[str, object]] = {
     },
     "games": {
         "label": "Games",
-        "description": "Desktop games installed with GNOME/KDE/XFCE.",
-        "patterns": [
-            "gnome-2048",
-            "five-or-more",
-            "four-in-a-row",
-            "gnome-chess",
-            "gnome-klotski",
-            "gnome-mahjongg",
-            "gnome-mines",
-            "gnome-nibbles",
-            "gnome-robots",
-            "gnome-sudoku",
-            "gnome-taquin",
-            "gnome-tetravex",
-            "hitori",
-            "lightsoff",
-            "quadrapassel",
-            "swell-foop",
-            "tali",
-        ],
+        "description": "Installed games detected via dpkg Section: games.",
+        "section": "games",
     },
     "input_methods": {
         "label": "Input Methods",
@@ -321,8 +303,11 @@ class CleanupEngine:
 
         categories: list[CleanupCategory] = []
         for key, meta in _CATEGORY_REGISTRY.items():
-            patterns: list[str] = cast(list[str], meta["patterns"])
-            matched = self._pkg.filter_by_patterns(patterns)
+            if "section" in meta:
+                matched = self._pkg.packages_by_section(str(meta["section"]))
+            else:
+                patterns: list[str] = cast(list[str], meta["patterns"])
+                matched = self._pkg.filter_by_patterns(patterns)
             # Remove any packages the user wants to keep
             matched = [p for p in matched if p not in protected]
             if matched:

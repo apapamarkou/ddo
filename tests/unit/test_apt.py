@@ -46,6 +46,42 @@ class TestAptManagerInstalled:
         assert size == 0
 
 
+class TestPackageManager:
+    def test_packages_by_section_filters_correctly(self) -> None:
+        from ddo.backend.apt import PackageInfo
+        from ddo.backend.packages import PackageManager
+
+        apt = AptManager()
+        pkgs = [
+            PackageInfo(
+                name="gnome-chess",
+                version="1",
+                architecture="amd64",
+                installed_size_kb=100,
+                section="games",
+            ),
+            PackageInfo(
+                name="bash",
+                version="5",
+                architecture="amd64",
+                installed_size_kb=200,
+                section="shells",
+            ),
+            PackageInfo(
+                name="supertux",
+                version="2",
+                architecture="amd64",
+                installed_size_kb=150,
+                section="games",
+            ),
+        ]
+        pkg = PackageManager(apt)
+        with patch.object(pkg, "all_installed", return_value=pkgs):
+            result = pkg.packages_by_section("games")
+        assert result == ["gnome-chess", "supertux"]
+        assert "bash" not in result
+
+
 class TestAptManagerPermissions:
     def test_update_uses_pkexec_when_not_root(self) -> None:
         apt = AptManager()
