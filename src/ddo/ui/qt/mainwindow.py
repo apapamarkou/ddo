@@ -44,7 +44,7 @@ class MainWindow(QMainWindow):
     def _build_ui(self) -> None:
         self._tabs = QTabWidget()
 
-        self._overview_tab = OverviewTab(self._pkg, self)
+        self._overview_tab = OverviewTab(self._apt, self._pkg, self.config, self)
         self._lang_tab = LanguagesTab(self._lang, self.config, self)
         self._components_tab = ComponentsTab(self._apt, self._pkg, self.config, self)
         self._updates_tab = UpdatesTab(self._apt, self)
@@ -58,7 +58,12 @@ class MainWindow(QMainWindow):
         self._tabs.addTab(self._logs_tab, "Logs")
         self._tabs.addTab(self._about_tab, "About")
 
+        self._tabs.currentChanged.connect(self._on_tab_changed)
         self.setCentralWidget(self._tabs)
+
+    def _on_tab_changed(self, index: int) -> None:
+        if self._tabs.widget(index) is self._logs_tab:
+            self._logs_tab.refresh()
 
     def show_status(self, msg: str) -> None:
         self._status_bar.showMessage(msg, 5000)

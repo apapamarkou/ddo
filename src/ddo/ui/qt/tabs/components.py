@@ -105,6 +105,8 @@ class ComponentsTab(QWidget):
         self._categories = result  # type: ignore[assignment]
         self._cat_list.clear()
         for cat in self._categories:
+            if not cat.packages_to_remove:
+                continue
             item = QListWidgetItem(
                 f"{cat.label}  ({len(cat.packages_to_remove)} pkgs, "
                 f"{format_bytes(cat.total_size_kb * 1024)})"

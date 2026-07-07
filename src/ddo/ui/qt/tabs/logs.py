@@ -18,7 +18,7 @@ class LogsTab(QWidget):
     def __init__(self, parent: QWidget | None = None) -> None:
         super().__init__(parent)
         self._build_ui()
-        self._load()
+        self.refresh()
 
     def _build_ui(self) -> None:
         layout = QVBoxLayout(self)
@@ -34,23 +34,18 @@ class LogsTab(QWidget):
 
         btn_layout = QHBoxLayout()
         refresh_btn = QPushButton("Refresh")
-        refresh_btn.clicked.connect(self._load)
-        clear_btn = QPushButton("Clear View")
-        clear_btn.clicked.connect(self._text.clear)
+        refresh_btn.clicked.connect(self.refresh)
         btn_layout.addStretch()
-        btn_layout.addWidget(clear_btn)
         btn_layout.addWidget(refresh_btn)
         layout.addLayout(btn_layout)
 
-    def _load(self) -> None:
+    def refresh(self) -> None:
         path = get_log_path()
         if path.exists():
             try:
                 content = path.read_text(encoding="utf-8", errors="replace")
-                # Show last 500 lines to keep the view manageable
                 lines = content.splitlines()[-500:]
                 self._text.setPlainText("\n".join(lines))
-                # Scroll to bottom
                 sb = self._text.verticalScrollBar()
                 sb.setValue(sb.maximum())
             except OSError as exc:

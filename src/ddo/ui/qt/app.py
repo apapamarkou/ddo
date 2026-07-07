@@ -4,7 +4,8 @@ from __future__ import annotations
 
 import sys
 
-from PyQt6.QtWidgets import QApplication
+from PyQt6.QtCore import QSharedMemory
+from PyQt6.QtWidgets import QApplication, QMessageBox
 
 from ddo.models.config import AppConfig
 from ddo.ui.qt.mainwindow import MainWindow
@@ -20,6 +21,11 @@ def main() -> None:
     app.setApplicationName("Debian Desktop Optimizer")
     app.setApplicationVersion("1.0.0")
     app.setOrganizationName("DDO")
+
+    _lock = QSharedMemory("ddo-single-instance")
+    if not _lock.create(1):
+        QMessageBox.warning(None, "Already Running", "Debian Desktop Optimizer is already running.")
+        sys.exit(0)
 
     if AppConfig.is_first_run():
         wizard = FirstRunWizard(config)
