@@ -154,9 +154,7 @@ class CleanupOptionsPage(QWizardPage):
         ("bluetooth", "Remove Bluetooth", False),
         ("modem", "Remove modem/mobile broadband support", False),
         ("server_packages", "Remove server packages", False),
-        ("development", "Remove development tools", False),
         ("unused_docs", "Remove unused documentation", False),
-        ("unused_firmware", "Remove unused firmware", False),
         ("bloatware", "Remove bloatware (xterm, shotwell, mlterm)", False),
     )
 
