@@ -93,6 +93,7 @@ class ComponentsTab(QWidget):
     def _do_load(self) -> object:
         from pathlib import Path
 
+        self._pkg.refresh()
         db_path = Path(self._config.languages_db_path) if self._config.languages_db_path else None
         lang = LanguageManager(self._pkg, db_path=db_path)
         detected = lang.detect_installed()
