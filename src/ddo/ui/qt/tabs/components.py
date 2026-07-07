@@ -44,7 +44,7 @@ class ComponentsTab(QWidget):
     def _build_ui(self) -> None:
         layout = QVBoxLayout(self)
 
-        hint = QLabel("Check categories you want to remove, then click 'Apply Selected'.")
+        hint = QLabel("Check categories you want to remove, then click 'Remove Selected'.")
         hint.setWordWrap(True)
         layout.addWidget(hint)
 
@@ -74,7 +74,7 @@ class ComponentsTab(QWidget):
         layout.addWidget(self._log)
 
         btn_layout = QHBoxLayout()
-        apply_btn = QPushButton("Apply Selected")
+        apply_btn = QPushButton("Remove Selected")
         apply_btn.clicked.connect(self._apply)
         refresh_btn = QPushButton("Refresh")
         refresh_btn.clicked.connect(self._load_categories)
@@ -110,7 +110,7 @@ class ComponentsTab(QWidget):
                 f"{format_bytes(cat.total_size_kb * 1024)})"
             )
             item.setData(Qt.ItemDataRole.UserRole, cat)
-            item.setCheckState(Qt.CheckState.Checked if cat.enabled else Qt.CheckState.Unchecked)
+            item.setCheckState(Qt.CheckState.Unchecked)
             self._cat_list.addItem(item)
 
     def _on_select(self) -> None:

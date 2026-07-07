@@ -44,7 +44,7 @@ class MainWindow(QMainWindow):
     def _build_ui(self) -> None:
         self._tabs = QTabWidget()
 
-        self._overview_tab = OverviewTab(self._apt, self._pkg, self._lang, self.config, self)
+        self._overview_tab = OverviewTab(self._pkg, self)
         self._lang_tab = LanguagesTab(self._lang, self.config, self)
         self._components_tab = ComponentsTab(self._apt, self._pkg, self.config, self)
         self._updates_tab = UpdatesTab(self._apt, self)
