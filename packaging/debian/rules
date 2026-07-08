@@ -34,6 +34,8 @@ override_dh_auto_install:
 		$(DESTDIR)/usr/share/pixmaps/debian-desktop-optimizer.png
 	install -Dm644 ../data/icons/debian-desktop-oprimizer.png \
 		$(DESTDIR)/usr/share/icons/hicolor/256x256/apps/debian-desktop-optimizer.png
+	install -Dm644 ../data/icons/ddo-wizard-image.png \
+		$(DESTDIR)/usr/share/ddo/icons/ddo-wizard-image.png
 	# Install desktop entry
 	install -Dm644 ../packaging/ddo.desktop \
 		$(DESTDIR)/usr/share/applications/ddo.desktop

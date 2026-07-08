@@ -5,6 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import (
     QCheckBox,
     QLabel,
@@ -36,6 +37,15 @@ class FirstRunWizard(QWizard):
         self.setWindowTitle("Debian Desktop Optimizer — First Run")
         self.setMinimumSize(700, 500)
         self.setWizardStyle(QWizard.WizardStyle.ModernStyle)
+
+        _candidates = [
+            Path("/usr/share/ddo/icons/ddo-wizard-image.png"),
+            Path(__file__).parent.parent.parent.parent.parent / "data/icons/ddo-wizard-image.png",
+        ]
+        for _p in _candidates:
+            if _p.exists():
+                self.setPixmap(QWizard.WizardPixmap.WatermarkPixmap, QPixmap(str(_p)))
+                break
 
         self._apt = AptManager()
         self._pkg = PackageManager(self._apt)
