@@ -35,9 +35,9 @@ class UpdatesTab(QWidget):
         layout.addWidget(self._log)
 
         btn_layout = QHBoxLayout()
-        update_btn = QPushButton("Update & Upgrade")
+        update_btn = QPushButton("Update System")
         update_btn.clicked.connect(self._run_update)
-        autoremove_btn = QPushButton("Autoremove")
+        autoremove_btn = QPushButton("Remove Unused Packages")
         autoremove_btn.clicked.connect(self._run_autoremove)
         btn_layout.addStretch()
         btn_layout.addWidget(autoremove_btn)

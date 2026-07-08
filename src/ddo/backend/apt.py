@@ -349,9 +349,7 @@ class AptManager:
                     f"Aborting purge — simulation detected unsafe removals: "
                     f"{sim.dangerous_packages}"
                 )
-        self._run(
-            self._privileged([self._apt, "-y", "--purge", "remove", "--no-auto-remove", *packages])
-        )
+        self._run(self._privileged([self._apt, "-y", "--purge", "remove", *packages]))
         logger.info("Purged %d package(s)", len(packages))
 
     def install(self, packages: list[str]) -> None:

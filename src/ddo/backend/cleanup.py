@@ -414,6 +414,9 @@ class CleanupEngine:
         self._cb(f"Removing {len(all_to_remove)} packages…")
         self._apt.purge(all_to_remove)
 
+        self._cb("Running autoremove…")
+        self._apt.autoremove()
+
         self._cb("Running autoclean…")
         self._apt.autoclean()
 
