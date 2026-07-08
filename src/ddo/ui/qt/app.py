@@ -24,8 +24,17 @@ def main() -> None:
 
     _lock = QSharedMemory("ddo-single-instance")
     if not _lock.create(1):
-        QMessageBox.warning(None, "Already Running", "Debian Desktop Optimizer is already running.")
-        sys.exit(0)
+        # Segment exists — could be a live instance or a stale crash remnant.
+        # Try to attach: if it succeeds, detach immediately (cleans up on Unix)
+        # then retry create. If create still fails, a real instance is running.
+        _stale = QSharedMemory("ddo-single-instance")
+        if _stale.attach():
+            _stale.detach()
+        if not _lock.create(1):
+            QMessageBox.warning(
+                None, "Already Running", "Debian Desktop Optimizer is already running."
+            )
+            sys.exit(0)
 
     if AppConfig.is_first_run():
         wizard = FirstRunWizard(config)
