@@ -3,9 +3,10 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import override
 
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QPixmap
+from PyQt6.QtGui import QPixmap, QResizeEvent
 from PyQt6.QtWidgets import (
     QCheckBox,
     QLabel,
@@ -42,10 +43,12 @@ class FirstRunWizard(QWizard):
             Path("/usr/share/ddo/icons/ddo-wizard-image.png"),
             Path(__file__).parent.parent.parent.parent.parent / "data/icons/ddo-wizard-image.png",
         ]
+        self._watermark_source: QPixmap | None = None
         for _p in _candidates:
             if _p.exists():
-                self.setPixmap(QWizard.WizardPixmap.WatermarkPixmap, QPixmap(str(_p)))
+                self._watermark_source = QPixmap(str(_p))
                 break
+        self._update_watermark()
 
         self._apt = AptManager()
         self._pkg = PackageManager(self._apt)
@@ -62,7 +65,19 @@ class FirstRunWizard(QWizard):
         self._execute_page = ExecutePage(self._apt, self._pkg, self._lang, config, self)
         self.addPage(self._execute_page)
 
-    def accept(self) -> None:
+    def _update_watermark(self) -> None:
+        if self._watermark_source is None:
+            return
+        h = self.height() or self._watermark_source.height()
+        scaled = self._watermark_source.scaledToHeight(
+            h, Qt.TransformationMode.SmoothTransformation
+        )
+        self.setPixmap(QWizard.WizardPixmap.WatermarkPixmap, scaled)
+
+    @override
+    def resizeEvent(self, event: QResizeEvent) -> None:
+        super().resizeEvent(event)
+        self._update_watermark()
         # Update config from wizard pages before accepting
         self.config.kept_languages = self._lang_page.selected_languages()
         super().accept()
