@@ -77,10 +77,12 @@ jobs:
           name: debian-package
           path: deb/
 
+      - uses: actions/checkout@v4
+
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
+          body_path: RELEASE.md
           files: |
             dist/*
             deb/*.deb
-          generate_release_notes: true
