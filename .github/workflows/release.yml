@@ -52,7 +52,7 @@ jobs:
           dpkg-buildpackage -us -uc -b
 
       - name: Lint .deb
-        run: lintian ../*.deb
+        run: lintian --no-tag-display-limit --fail-on error *.deb
 
       - name: Upload .deb artifact
         uses: actions/upload-artifact@v4
