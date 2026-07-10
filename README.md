@@ -1,8 +1,10 @@
 # Debian Desktop Optimizer
 
 [![CI](https://github.com/apapamarkou/ddo/actions/workflows/ci.yml/badge.svg)](https://github.com/apapamarkou/ddo/actions)
+[![Release](https://img.shields.io/github/v/release/apapamarkou/ddo?label=release)](https://github.com/apapamarkou/ddo/releases/latest)
 [![License: GPL-3.0-only](https://img.shields.io/badge/License-GPL--3.0--only-blue.svg)](LICENSE)
 [![Python 3.13+](https://img.shields.io/badge/python-3.13+-brightgreen.svg)](https://python.org)
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/andrianos)
 
 Remove unnecessary language packs, fonts, input methods, games, and optional
 desktop components from a freshly installed Debian system — while keeping the
@@ -27,7 +29,7 @@ languages you actually use.
 
 ### From .deb (recommended)
 
-Download latest deb package from the [realease page](https://github.com/apapamarkou/ddo/releases)
+Download latest deb package from the [release page](https://github.com/apapamarkou/ddo/releases)
 
 ```bash
 cd ~/Downloads
