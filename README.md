@@ -27,7 +27,10 @@ languages you actually use.
 
 ### From .deb (recommended)
 
+Download latest deb package from the [realease page](https://github.com/apapamarkou/ddo/releases)
+
 ```bash
+cd ~/Downloads
 sudo apt install ./debian-desktop-optimizer_1.0.0-1_all.deb
 ```
 
