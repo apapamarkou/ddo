@@ -50,15 +50,16 @@ jobs:
         run: |
           cd packaging
           dpkg-buildpackage -us -uc -b
+          mv ../*.deb ../debian-package.deb
 
       - name: Lint .deb
-        run: lintian --tag-display-limit 0 --fail-on error --suppress-tags initial-upload-closes-no-bugs,no-manual-page *.deb || true
+        run: lintian --tag-display-limit 0 --fail-on error --suppress-tags initial-upload-closes-no-bugs,no-manual-page debian-package.deb || true
 
       - name: Upload .deb artifact
         uses: actions/upload-artifact@v4
         with:
           name: debian-package
-          path: "*.deb"
+          path: debian-package.deb
 
   release:
     name: Create GitHub Release
@@ -85,4 +86,4 @@ jobs:
           body_path: RELEASE.md
           files: |
             dist/*
-            deb/*.deb
+            deb/debian-package.deb
